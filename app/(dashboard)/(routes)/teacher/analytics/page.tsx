@@ -1,5 +1,28 @@
-const Analytics = () => {
-  return <div>Analytics</div>;
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { getAnalytics } from "@/actions/getAnalytics";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import DataCard from "./_components/DataCard";
+import Chart from "./_components/Chart";
+
+const Analytics = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return redirect("/");
+  }
+  const { data, totalRevenue, totalSales } = await getAnalytics(userId!);
+  console.log(totalSales);
+
+  return (
+    <div className="p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <DataCard label="Total Revenue" value={totalRevenue} shouldFormat />
+        <DataCard label="Total Sales" value={totalSales} />
+      </div>
+      <Chart data={data} />
+    </div>
+  );
 };
 
 export default Analytics;

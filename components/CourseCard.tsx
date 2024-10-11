@@ -3,6 +3,7 @@ import Link from "next/link";
 import { IconBadge } from "./IconBadge";
 import { BookOpen } from "lucide-react";
 import { formatPrice } from "@/lib/format";
+import CourseProgress from "./CourseProgress";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 interface CourseCardProps {
@@ -45,7 +46,13 @@ const CourseCard = ({
             </div>
           </div>
           {progress !== null ? (
-            <div>{/* PROGRESS COm */}</div>
+            <div>
+              <CourseProgress
+                size="sm"
+                value={progress}
+                variant={progress === 100 ? "success" : "default"}
+              />
+            </div>
           ) : (
             <p className="text-base md:text-sm font-medium text-slate-700">
               {formatPrice(price)}
